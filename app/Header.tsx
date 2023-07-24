@@ -13,10 +13,10 @@ export default function Header({}: Props) {
       <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-10 shadow-md">
         <div className="flex space-x-2">
           <Image
-            className="rounded-full mx-2 object-contain animate-pulse"
+            className="rounded-full mx-2 object-contain"
             height={10}
             width={50}
-            src="https://links.papareact.com/jne"
+            src="https://github.com/marcusvinicius0.png"
             alt="User Avatar"
           />
 
