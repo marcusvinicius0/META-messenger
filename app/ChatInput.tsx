@@ -1,15 +1,21 @@
 "use client";
 
-import { Message } from "@/typings";
 import { FormEvent, useState } from "react";
+import { Message } from "@/typings";
 import { v4 as uuid } from "uuid";
+
+import useSWR from "swr";
+import fetcher from "@/utils/fetchMessages";
 
 type Props = {};
 
 export default function ChatInput({}: Props) {
   const [input, setInput] = useState("");
+  const { data: messages, error, mutate } = useSWR("/api/getMessages", fetcher);
 
-  const addMessage = (e: FormEvent<HTMLFormElement>) => {
+  console.log(messages);
+
+  const addMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!input) return;
@@ -29,7 +35,7 @@ export default function ChatInput({}: Props) {
     };
 
     const uploadMessageToUpstash = async () => {
-      const res = await fetch("/api/addMessage", {
+      const data = await fetch("/api/addMessage", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,19 +43,21 @@ export default function ChatInput({}: Props) {
         body: JSON.stringify({
           message,
         }),
-      });
+      }).then(res => res.json());
 
-      const data = await res.json();
-      console.log("MESSAGE ADDED >>>", data);
+      return [data.message, ...messages!]; 
     };
 
-    uploadMessageToUpstash();
+    await mutate(uploadMessageToUpstash, {
+      optimisticData: [message, ...messages!],
+      rollbackOnError: true,
+    });
   };
 
   return (
     <form
       onSubmit={addMessage}
-      className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 border-t border-gray-100"
+      className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 border-t bg-white border-gray-100"
     >
       <input
         type="text"
