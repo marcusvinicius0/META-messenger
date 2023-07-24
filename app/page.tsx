@@ -1,11 +1,13 @@
-import React from 'react'
+import MessageList from "./MessageList";
+import ChatInput from "./ChatInput";
 
-type Props = {}
+type Props = {};
 
 export default function HomePage({}: Props) {
   return (
-    <div>
-      <h1 className="text-4xl uppercase text-gray-900 underline">HomePage</h1>
-    </div>
-  )
+    <main>
+      <MessageList />
+      <ChatInput />
+    </main>
+  );
 }
