@@ -13,8 +13,6 @@ export default function ChatInput({}: Props) {
   const [input, setInput] = useState("");
   const { data: messages, error, mutate } = useSWR("/api/getMessages", fetcher);
 
-  console.log(messages);
-
   const addMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -43,11 +41,10 @@ export default function ChatInput({}: Props) {
         body: JSON.stringify({
           message,
         }),
-      }).then(res => res.json());
+      }).then((res) => res.json());
 
-      return [data.message, ...messages!]; 
+      return [data.message, ...messages!];
     };
-
     await mutate(uploadMessageToUpstash, {
       optimisticData: [message, ...messages!],
       rollbackOnError: true,
@@ -57,7 +54,7 @@ export default function ChatInput({}: Props) {
   return (
     <form
       onSubmit={addMessage}
-      className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 border-t bg-white border-gray-100"
+      className="fixed bottom-0 z-50 w-full flex py-5 pr-5 pl-2 space-x-2 border-t bg-white border-gray-100"
     >
       <input
         type="text"

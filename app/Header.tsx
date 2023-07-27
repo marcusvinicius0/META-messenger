@@ -10,10 +10,10 @@ export default function Header({}: Props) {
 
   if (session) {
     return (
-      <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-10 shadow-md">
-        <div className="flex space-x-2">
+      <header className="sticky top-0 z-50 bg-white shadow-md p-2 flex justify-between items-center">
+        <div className="">
           <Image
-            className="rounded-full mx-2 object-contain"
+            className="rounded-full object-contain"
             height={10}
             width={50}
             src="https://github.com/marcusvinicius0.png"
