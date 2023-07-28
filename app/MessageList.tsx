@@ -20,9 +20,11 @@ export default function MessageList({}: Props) {
   } = useSWR<Message[]>("/api/messages", fetcher);
 
   useEffect(() => {
-    async function getMessages() {
       const channel = clientPusher.subscribe("messages");
+
       channel.bind("new-messages", async (data: Message) => {
+        if (messages?.find((message) => message.id === data.id)) return;
+
         if (!messages) {
           mutate(fetcher);
         } else {
@@ -32,13 +34,12 @@ export default function MessageList({}: Props) {
           });
         }
       });
-    }
-    getMessages()
-  }, [messages, mutate, clientPusher]);
+
+  }, [messages, clientPusher, mutate]);
 
   return (
-    <div className="mt-5 space-y-5">
-      {messages?.length === 5 ? (
+    <div className="mt-5 space-y-5 lg:max-w-6xl lg:mx-auto mb-28">
+      {messages?.length === 50 ? (
         <>
           {messages?.map((message) => (
             <>

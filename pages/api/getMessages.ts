@@ -36,7 +36,5 @@ export default async function handler(
 
   const data: Data = { type: "data", messages: limitMessagesToFifth };
 
-  console.log("mano", data);
-
   res.status(200).json(data);
 }
