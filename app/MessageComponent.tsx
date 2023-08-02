@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function MessageComponent({ message }: Props) {
-  const isUser = false;
+  const isUser = true;
 
   return (
     <div className={`flex w-fit p-2 ${isUser && "ml-auto"}`}>
